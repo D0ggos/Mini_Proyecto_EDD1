@@ -3,6 +3,6 @@ Mini Proyecto 1 de Estructuras de Datos
 
 Gaspar Francisco Jimenez Cabezas
 Pedro Pablo Muñoz Solano
-(Nombre 3)
+Rodrigo Sebastián Cádiz Araya
 
 Estudiantes de Ingenieria Civil Informatica de la Universidad De Concepcion
