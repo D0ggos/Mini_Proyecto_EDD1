@@ -3,16 +3,18 @@
 using namespace std;
 
 class Nodo {
+    
 public:
-    int* arr;
-    int b;//tamano de los arreglos dentro de los nodos
-    int n;//cantidad de elementos almacenados
+    int* ar;
+    int b;
+    int n;
     Nodo* next;
     Nodo(int b);
 };
 
 
 class ListArrLinked : public ListArr{
+
     public:
         Nodo* head;
         Nodo* tail;
