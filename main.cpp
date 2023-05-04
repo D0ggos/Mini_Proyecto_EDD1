@@ -86,5 +86,18 @@ int main(){
 
    // Tiempo de ejecución promedio con 10000 elementos (insert_right) = 384 milisegundos aproximadamente.
 
+   auto start5 = chrono::high_resolution_clock::now();
+
+    for (int i = 0; i < 10000; i++){
+
+        list.delete_left();
+    }
+
+   auto stop5 = chrono::high_resolution_clock::now();
+   auto duration5 = chrono::duration_cast<chrono::microseconds>(stop5 - start5);
+
+   cout << duration5.count() << "\n";
+
+
     return 0;
 }

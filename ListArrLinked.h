@@ -27,6 +27,8 @@ class ListArrLinked : public ListArr{
         void insert(int v, int i);
         void print();
         bool find(int v);
+        int delete_left();
+        int delete_right();
 };
 
 

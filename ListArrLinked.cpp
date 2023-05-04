@@ -125,4 +125,51 @@ bool ListArrLinked::find(int v){
         curr = curr->next;
     }
     return false;
+
+
+}
+
+int ListArrLinked::delete_left(int v) {
+    if (v == 0) {
+        throw "Lista vacía";
+    }
+    int val = head->ar[0];
+    head->v--;
+    if (head->v == 0) {
+        Nodo* temp = head;
+        head = head->next;
+        delete temp;
+        if (head == nullptr) {
+            tail = nullptr;
+        }
+    } else {
+        for (int i = 0; i < head->v; i++) {
+            head->ar[i] = head->ar[i + 1];
+        }
+    }
+    v--;
+    return val;
+}
+
+int ListArrLinked::delete_right(int v) {
+    if (v == 0) {
+        throw "Lista vacía";
+    }
+    int val = tail->ar[tail->v-1];
+    tail->v--;
+    if (tail->v == 0) {
+        Nodo* temp = tail;
+        Nodo* curr = head;
+        while (curr->next != tail) {
+            curr = curr->next;
+        }
+        curr->next = nullptr;
+        tail = curr;
+        delete temp;
+        if (tail == nullptr) {
+            head = nullptr;
+        }
+    }
+    v--;
+    return val;
 }
