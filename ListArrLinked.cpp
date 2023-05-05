@@ -36,9 +36,22 @@ void ListArrLinked::insert_left(int v){
             }
         }
 
-    this->head->ar[this->head->n] = v;
-    this->head->n++;
-    this->n++;
+    int j = 0 / this->b;
+        Nodo* curr = this->head;
+
+        while (j > 0){
+            curr = curr->next;
+            j--;
+        }
+
+        int k = 0 % this->b;
+        for (int l = curr->n - 1; l >= k; l--){
+            curr->ar[l+1] = curr->ar[l];
+        }
+
+        curr->ar[k] = v;
+        curr->n++;
+        this->n++;
 }
 
 void ListArrLinked::insert_right(int v){
@@ -113,16 +126,16 @@ void ListArrLinked::print(){
 }
 
 bool ListArrLinked::find(int v){
+    unordered_map<int, bool> m;  // mapa para almacenar los valores de la lista
 
     Nodo* curr = this->head;
 
     while (curr != nullptr) {
         for (int i = 0; i < curr->n; i++) {
-            if (curr->ar[i] == v) {
-                return true;
-            }
+            m[curr->ar[i]] = true;  // agregar el valor al mapa
         }
         curr = curr->next;
     }
-    return false;
+
+    return m.find(v) != m.end();  // buscar el valor en el mapa
 }
