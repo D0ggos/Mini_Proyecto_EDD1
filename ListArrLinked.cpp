@@ -19,6 +19,7 @@ ListArrLinked::ListArrLinked(int b){
     this->raiz = nullptr;
     this->n = 0;
     this->b = b;
+    tamano_total=0;
 }
 
 
@@ -72,7 +73,7 @@ void ListArrLinked::nuevo_nodo(Nodo*& raiz){
 
 
 int ListArrLinked::size(){
-    return raiz->n;
+    return tamano_total;
 }
 
 
@@ -115,6 +116,7 @@ void ListArrLinked::insert_left(int v, Nodo* nodo_actual){
 
 void ListArrLinked::insert_left(int v){
     insert_left(v, this->raiz);
+    tamano_total++;
 }
 
 
@@ -153,6 +155,7 @@ void ListArrLinked::insert_right(int v, Nodo* nodo_actual) {
 
 void ListArrLinked::insert_right(int v) {
     insert_right(v, this->raiz);
+    tamano_total++;
 }
 
 void ListArrLinked::insert(int v, int i, Nodo* nodo){
@@ -204,51 +207,9 @@ void ListArrLinked::insert(int v, int i, Nodo* nodo){
 
 void ListArrLinked::insert(int v, int i){
     insert(v, i, this->raiz);
+    tamano_total++;
 }
 
-int ListArrLinked::eliminar_left(Nodo* nodo_actual){
-    
-    if (nodo_actual->izq == nullptr){ // caso 1: nodo_actual es una hoja
-        int v = nodo_actual->ar[0];
-        for (int i = 1; i < nodo_actual->n; i++){
-            nodo_actual->ar[i-1] = nodo_actual->ar[i];
-        }
-        nodo_actual->n--;
-        raiz->n--;
-        return v;
-    }
-    else if (nodo_actual->izq != nullptr && nodo_actual->izq->n > 0){ // caso 2: el hijo izquierdo tiene al menos un elemento
-        int v = nodo_actual->izq->ar[nodo_actual->izq->n - 1];
-        nodo_actual->izq->n--;
-        raiz->n--;
-        return v;
-    }
-    else { // caso 3: el hijo izquierdo no es hoja
-        return eliminar_left(nodo_actual->izq);
-    }
-}
-
-int ListArrLinked::eliminar_right(Nodo* nodo_actual){
-    
-    if (nodo_actual->der == nullptr){ // caso 1: nodo_actual es una hoja
-        int v = nodo_actual->ar[nodo_actual->n - 1];
-        nodo_actual->n--;
-        raiz->n--;
-        return v;
-    }
-    else if (nodo_actual->der != nullptr && nodo_actual->der->n > 0){ // caso 2: el hijo derecho tiene al menos un elemento
-        int v = nodo_actual->der->ar[0];
-        for (int i = 1; i < nodo_actual->der->n; i++){
-            nodo_actual->der->ar[i-1] = nodo_actual->der->ar[i];
-        }
-        nodo_actual->der->n--;
-        raiz->n--;
-        return v;
-    }
-    else { // caso 3: el hijo derecho no es hoja
-        return eliminar_right(nodo_actual->der);
-    }
-}
 
 int ListArrLinked::delete_left() {
     Nodo* actual = raiz;
@@ -281,7 +242,7 @@ int ListArrLinked::delete_left() {
         actual->n--;
         actualizar_resumenes(raiz);
     }
-
+    tamano_total--;
     return ret_val;
 }
 
@@ -314,7 +275,7 @@ int ListArrLinked::delete_right() {
         actual->n--;
         actualizar_resumenes(raiz);
     }
-
+    tamano_total--;
     return ret_val;
 }
 
@@ -366,4 +327,3 @@ bool ListArrLinked::find(int v, Nodo* nodo_actual){
     }
     return find(v, nodo_actual->izq) || find(v, nodo_actual->der);
 }
-

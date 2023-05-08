@@ -20,6 +20,7 @@ class ListArrLinked : public ListArr{
         Nodo* raiz;//puntero a nodo raiz
         int n;//cantidad de elementos en el arreglo
         int b;//cantidad maxima de elementos en el arreglo
+        int tamano_total;//controlora el tamano total de elementos entre todos los nodos
         ListArrLinked(int b);//constructor de ListArrLinked
 
         int size();
@@ -46,8 +47,6 @@ class ListArrLinked : public ListArr{
         int delete_left();
         int delete_right();
 
-        int eliminar_left(Nodo* nodo_actual);
-        int eliminar_right(Nodo* nodo_actual);
 };
 
 
