@@ -30,6 +30,7 @@ class ListArrLinked : public ListArr{
         void print();
         void print_hojas(Nodo* nodo);
         bool find(int v);
+        bool find(int v, Nodo* nodo_actual);
         void actualizar_resumenes(Nodo* nodo);
         void nuevo_nodo(Nodo*& raiz);
 };
