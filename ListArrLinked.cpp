@@ -120,15 +120,15 @@ void ListArrLinked::insert_left(int v){
 }
 
 
-void ListArrLinked::insert_right(int v, Nodo* nodo_actual){
-    
-    if (nodo_actual->izq == nullptr){
-        if (nodo_actual->b == nodo_actual->n){ // Si es que el arreglo del nodo está lleno
+void ListArrLinked::insert_right(int v, Nodo* nodo_actual) {
+
+    if (nodo_actual->der == nullptr) {
+        if (nodo_actual->b == nodo_actual->n) { // Si el arreglo del nodo está lleno
 
             nuevo_nodo(nodo_actual);
             nuevo_nodo(nodo_actual);
 
-            for (int i = 0; i < b; i++){
+            for (int i = 0; i < b; i++) {
                 nodo_actual->izq->ar[i] = nodo_actual->ar[i];
             }
             delete[] nodo_actual->ar;
@@ -137,88 +137,46 @@ void ListArrLinked::insert_right(int v, Nodo* nodo_actual){
             nodo_actual->der->n++;
         }
 
-        else if (nodo_actual->n == 0){
+        else if (nodo_actual->n == 0) {
             nodo_actual->ar[0] = v;
             nodo_actual->n++;
         }
 
-        else if (nodo_actual->n < nodo_actual->b){
-            for (int i = nodo_actual->n; i > 0; i--){
-                nodo_actual->ar[i] = nodo_actual->ar[i-1];
-            }
-            nodo_actual->ar[0] = v;
+        else if (nodo_actual->n < nodo_actual->b) {
+            nodo_actual->ar[nodo_actual->n] = v;
             nodo_actual->n++;
         }
         actualizar_resumenes(this->raiz);
     }
-    else if (nodo_actual->izq != nullptr && nodo_actual->der != nullptr){
+    else if (nodo_actual->izq != nullptr && nodo_actual->der != nullptr) {
         insert_right(v, nodo_actual->der);
     }
 }
 
-
-void ListArrLinked::insert_right(int v){
+void ListArrLinked::insert_right(int v) {
     insert_right(v, this->raiz);
 }
 
-
 void ListArrLinked::insert(int v, int i) {
-    // Verificar si el índice es válido
-    if (i < 0 || i > size()) {
-        cout << "Índice inválido\n";
+    if (i < 0 || i > raiz->n) {
+        cout << "Índice inválido" << endl;
         return;
     }
-    
-    Nodo* nodo_actual = raiz;
-    int pos_actual = i;
-    
-    while (pos_actual >= nodo_actual->n) {
-        pos_actual -= nodo_actual->n;
-        nodo_actual = nodo_actual->der;
+    if (raiz == nullptr) {
+        nuevo_nodo(raiz);
     }
-    
-    while (nodo_actual->izq != nullptr) {
-        if (pos_actual < nodo_actual->izq->n) {
+    Nodo* nodo_actual = raiz;
+    int indice_actual = i;
+    while (nodo_actual != nullptr) {
+        if (indice_actual <= nodo_actual->izq->n) {
             nodo_actual = nodo_actual->izq;
         } else {
-            pos_actual -= nodo_actual->izq->n;
+            indice_actual -= nodo_actual->izq->n;
             nodo_actual = nodo_actual->der;
         }
     }
-    
-    // Verificar si el arreglo está lleno
-    if (nodo_actual->n == nodo_actual->b) {
-        // Crear un nuevo nodo y redistribuir los elementos
-        nuevo_nodo(nodo_actual);
-        Nodo* nuevo_nodo = nodo_actual->der;
-        int mitad = nodo_actual->n / 2;
-        
-        for (int j = mitad; j < nodo_actual->n; j++) {
-            nuevo_nodo->ar[j - mitad] = nodo_actual->ar[j];
-        }
-        
-        nuevo_nodo->n = nodo_actual->n - mitad;
-        nodo_actual->n = mitad;
-        
-        // Verificar en qué nodo se debe insertar el valor
-        if (pos_actual >= mitad) {
-            pos_actual -= mitad;
-            nodo_actual = nuevo_nodo;
-        }
-    }
-    
-    // Insertar el valor en el arreglo
-    for (int j = nodo_actual->n - 1; j >= pos_actual; j--) {
-        nodo_actual->ar[j + 1] = nodo_actual->ar[j];
-    }
-    
-    nodo_actual->ar[pos_actual] = v;
-    nodo_actual->n++;
-    actualizar_resumenes(raiz);
+    insert_left(v, nodo_actual->tail);
 }
-
-
-
 
 
 void ListArrLinked::print_hojas(Nodo* nodo){
@@ -251,10 +209,10 @@ bool ListArrLinked::find(int v){
     if (raiz == nullptr){
         return false;
     }
-    return findAux(v, raiz);
+    return find(v, raiz);
 }
 
-bool ListArrLinked::findAux(int v, Nodo* nodo_actual){
+bool ListArrLinked::find(int v, Nodo* nodo_actual){
     for (int i = 0; i < nodo_actual->n; i++){
         if (nodo_actual->ar[i] == v){
             return true;
@@ -263,6 +221,6 @@ bool ListArrLinked::findAux(int v, Nodo* nodo_actual){
     if (nodo_actual->izq == nullptr){
         return false;
     }
-    return findAux(v, nodo_actual->izq) || findAux(v, nodo_actual->der);
+    return find(v, nodo_actual->izq) || find(v, nodo_actual->der);
 }
 
