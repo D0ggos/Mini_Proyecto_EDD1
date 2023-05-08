@@ -26,6 +26,7 @@ class ListArrLinked : public ListArr{
         void insert_left(int v, Nodo* nodo);
         void insert_right(int v);
         void insert_right(int v, Nodo* nodo);
+        void insert(int v, int i, Nodo* nodo);
         void insert(int v, int i);
         void print();
         void print_hojas(Nodo* nodo);

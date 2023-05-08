@@ -157,25 +157,56 @@ void ListArrLinked::insert_right(int v) {
     insert_right(v, this->raiz);
 }
 
-void ListArrLinked::insert(int v, int i) {
-    if (i < 0 || i > raiz->n) {
-        cout << "Índice inválido" << endl;
+void ListArrLinked::insert(int v, int i, Nodo* nodo){
+
+    if (nodo->izq == nullptr or nodo->der == nullptr){
+        if (nodo->n < nodo->b){
+            for (int j = nodo->n; j > i; j--){
+                nodo->ar[j] = nodo->ar[j-1];
+            }
+
+            nodo->ar[i] = v;
+            nodo->n++;
+            return;
+        }
+
+        if (i == 0){
+            insert_left(v, nodo);
+            return;
+        } else if (i == nodo->n){
+            insert_right(v, nodo);
+            return;
+        }
+
+        nuevo_nodo(nodo);
+        nuevo_nodo(nodo);
+
+        for (int j = 0; j < i; j++){
+            nodo->izq->ar[j] = nodo->ar[j];
+            nodo->izq->n++;
+        }
+        nodo->izq->ar[i] = v;
+        nodo->izq->n++;
+
+        for (int j = i; j < nodo->n; j++){
+            nodo->der->ar[j-i] = nodo->ar[j];
+            nodo->der->n++;
+        }
+
+        delete[] nodo->ar;
+        actualizar_resumenes(this->raiz);
+
         return;
     }
-    if (raiz == nullptr) {
-        nuevo_nodo(raiz);
-    }
-    Nodo* nodo_actual = raiz;
-    int indice_actual = i;
-    while (nodo_actual != nullptr) {
-        if (indice_actual <= nodo_actual->izq->n) {
-            nodo_actual = nodo_actual->izq;
-        } else {
-            indice_actual -= nodo_actual->izq->n;
-            nodo_actual = nodo_actual->der;
-        }
-    }
-    insert_left(v, nodo_actual->tail);
+
+    if (nodo->izq->n > i) {insert(v, i, nodo->izq);} 
+
+    else {insert(v, i - nodo->izq->n, nodo->der);}
+}
+
+
+void ListArrLinked::insert(int v, int i){
+    insert(v, i, this->raiz);
 }
 
 
@@ -183,7 +214,7 @@ void ListArrLinked::print_hojas(Nodo* nodo){
 
     if (nodo != nullptr){
         if (nodo->izq == nullptr && nodo->der == nullptr){
-            for (int i = 0; i < nodo->n; i++) {
+            for (int i = 0; i < nodo->n; i++){
                 cout << nodo->ar[i] << " ";
             }
         } 
@@ -223,4 +254,3 @@ bool ListArrLinked::find(int v, Nodo* nodo_actual){
     }
     return find(v, nodo_actual->izq) || find(v, nodo_actual->der);
 }
-

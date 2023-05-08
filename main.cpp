@@ -17,6 +17,7 @@ int main(){
     list.insert_left(2);
     list.insert_left(4);
     list.insert_left(5);
+    list.insert(20, 3);
 
     list.print();
     cout<<"\n";
