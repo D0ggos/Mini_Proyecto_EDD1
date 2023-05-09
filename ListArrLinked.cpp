@@ -280,9 +280,6 @@ int ListArrLinked::delete_right() {
 }
 
 
-
-
-
 void ListArrLinked::print_hojas(Nodo* nodo){
 
     if (nodo != nullptr){
