@@ -160,6 +160,8 @@ void ListArrLinked::insert_right(int v) {
 
 void ListArrLinked::insert(int v, int i, Nodo* nodo){
 
+    
+
     if (i == 0){    // Si el indice es 0
         insert_left(v, nodo);
         return;
@@ -215,6 +217,10 @@ void ListArrLinked::insert(int v, int i, Nodo* nodo){
 
 
 void ListArrLinked::insert(int v, int i){
+    if (i > this->raiz->b - 1){
+        throw out_of_range("Indice fuera de rango");
+        return;
+    }
     insert(v, i, this->raiz);
     tamano_total++;
 }
