@@ -160,8 +160,19 @@ void ListArrLinked::insert_right(int v) {
 
 void ListArrLinked::insert(int v, int i, Nodo* nodo){
 
-    if (nodo->izq == nullptr or nodo->der == nullptr){
-        if (nodo->n < nodo->b){
+    if (i == 0){    // Si el indice es 0
+        insert_left(v, nodo);
+        return;
+
+    } 
+
+    else if (i == raiz->n){
+        insert_right(v, nodo);
+        return;
+    }
+
+    else if (nodo->izq == nullptr and nodo->der == nullptr){ // Si no tiene hijos
+        if (nodo->n < nodo->b){ // Si el nodo tiene espacios vacios
             for (int j = nodo->n; j > i; j--){
                 nodo->ar[j] = nodo->ar[j-1];
             }
@@ -170,38 +181,36 @@ void ListArrLinked::insert(int v, int i, Nodo* nodo){
             return;
         }
 
-        if (i == 0){
-            insert_left(v, nodo);
-            return;
-        } else if (i == nodo->n){
-            insert_right(v, nodo);
-            return;
-        }
+        else if (nodo->n == nodo->b){ // Si el nodo esta lleno
 
-        nuevo_nodo(nodo);
-        nuevo_nodo(nodo);
+            nuevo_nodo(nodo);
+            nuevo_nodo(nodo);
 
-        for (int j = 0; j < i; j++){
-            nodo->izq->ar[j] = nodo->ar[j];
+
+            for (int j = 0; j < i; j++){
+                nodo->izq->ar[j] = nodo->ar[j];
+                nodo->izq->n++;
+            }
+            nodo->izq->ar[i] = v;
             nodo->izq->n++;
+
+            for (int j = i; j < nodo->der->b; j++){
+
+                nodo->der->ar[j-i] = nodo->ar[j];
+                nodo->der->n++;
+            }
+
+            delete[] nodo->ar;
+            actualizar_resumenes(this->raiz);
+            return;
         }
-        nodo->izq->ar[i] = v;
-        nodo->izq->n++;
-
-        for (int j = i; j < nodo->n; j++){
-            nodo->der->ar[j-i] = nodo->ar[j];
-            nodo->der->n++;
-        }
-
-        delete[] nodo->ar;
-        actualizar_resumenes(this->raiz);
-
-        return;
     }
 
-    if (nodo->izq->n > i) {insert(v, i, nodo->izq);} 
+    if (nodo->izq->n > i){
+        insert(v, i, nodo->izq);} 
 
-    else {insert(v, i - nodo->izq->n, nodo->der);}
+    else if (nodo->izq->n <= i){
+        insert(v, i - nodo->izq->n, nodo->der);}
 }
 
 
